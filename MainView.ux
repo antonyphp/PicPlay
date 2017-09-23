@@ -1,0 +1,62 @@
+<App Background="#EEE">
+	<JavaScript File="main.js"/>
+	<Panel  ux:Class="FatButton" Margin="0,5,0,5" Text="">
+		<string ux:Property="Text"/>
+		<Text Value="{ReadProperty Text}" Color="#fff" Alignment="Center" Margin="30,15" />
+<Rectangle Layer="Background" CornerRadius="30" Color="#0096F5"/>
+
+	</Panel>
+	<ClientPanel>
+
+		<WhileNotEmpty Items="{imagePath}">
+			<DockPanel Dock="Fill">
+				<Image ux:Name="theImage" File="{imagePath}" StretchMode="Uniform" >
+
+					<Rotation ux:Name="rotate" Degrees="0"/>
+					<Desaturate ux:Name="desaturate" Amount="0" />
+					<InteractiveTransform ux:Name="transform" />
+
+				</Image>
+
+
+		<PanGesture Target="transform" ConstrainElement="theImage" />
+		<ZoomGesture Target="transform" Minimum="1" Maximum="2.5" />
+		<RotateGesture Target="transform" />
+			</DockPanel>
+		</WhileNotEmpty>
+
+
+		<StackPanel Dock="Bottom">
+			<FatButton Text="Take a Snap" Clicked="{takePicture}"/>
+			<FatButton Text="Get picture from cameraroll" Clicked="{selectImage}"/>
+			<WhileNotEmpty Items="{imagePath}">
+				<FatButton Text="Rotate Right">
+					<WhilePressed>
+						<Change rotate.Degrees="45" Duration="0.3" />
+					</WhilePressed>
+				</FatButton>
+				<FatButton Text="Rotate Left">
+					<WhilePressed>
+						<Change rotate.Degrees="-45" Duration="0.3" />
+					</WhilePressed>
+				</FatButton>
+
+				<FatButton Text="Grayscale">
+					<WhilePressed>
+										<Change desaturate.Amount="1" Duration="0.3" Easing="QuadraticInOut" />
+					</WhilePressed>
+				</FatButton>
+
+			</WhileNotEmpty>
+		</StackPanel>
+
+		<Panel ux:Name="content" TransformOrigin="TopLeft">
+	<Grid RowCount="4">
+		<Panel Color="#FDF0CC" />
+		<Panel Color="#F7CAB1" />
+		<Panel Color="#E8A0A2" />
+		<Panel Color="#C2768E" />
+	</Grid>
+</Panel>
+	</ClientPanel>
+</App>
